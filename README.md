@@ -2,6 +2,12 @@
 
 This is a simple tool to run the Gaia tool on a given input file. 
 
+## Single Run
+
+```bash
+./deploy.sh 8080 <the jdbc string to a postgressql database>
+````
+
 ## Build the Jar
     
 ```bash
