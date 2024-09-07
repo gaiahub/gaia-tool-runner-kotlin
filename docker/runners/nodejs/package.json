@@ -1,0 +1,12 @@
+{
+  "name": "nodejs",
+  "version": "1.0.0",
+  "description": "Gaiahub Nodejs Sandbox",
+  "main": "index.js",
+  "scripts": {},
+  "author": "natan@gaiahub.ai",
+  "license": "ISC",
+  "dependencies": {
+
+  }
+}
