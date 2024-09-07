@@ -16,7 +16,8 @@ val sharedModule = module {
     single<ToolRepository> { ToolsRepositoryKtorm() }
     single<VariableRepository> { VariableRepositoryKtorm() }
     single<ToolsService> { ToolsService(
-        toolRepository = get()
+        toolRepository = get(),
+        variablesService = get()
     ) }
     single<VariablesService> { VariablesService(
         variableRepository = get()
