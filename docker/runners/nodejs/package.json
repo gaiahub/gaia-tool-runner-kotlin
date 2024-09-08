@@ -7,6 +7,6 @@
   "author": "natan@gaiahub.ai",
   "license": "ISC",
   "dependencies": {
-
+    "axios": "^1.7.7"
   }
 }
