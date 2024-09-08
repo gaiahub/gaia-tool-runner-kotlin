@@ -85,7 +85,7 @@ class MainController(private val toolsService: ToolsService, private val variabl
             // Run the program in the sandbox
             SandboxService.runRunnableProgramInSandbox(it)
                 .onSuccess {
-                    return Result.success("Program output: ${it.executionResult}")
+                    return Result.success("${it.toCodeResultJSON()}")
                 }.onFailure {
                     return Result.failure(Exception("Error: $it"))
                 }
