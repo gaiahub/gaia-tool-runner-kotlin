@@ -9,7 +9,7 @@ echo "port is $PORT"
 echo "jdbc is $JDBC_CONNECTION_STRING"
 
 echo "Creating Sandboxes..."
-#./docker/tool-runner-controller/sandbox.sh -c ./docker/runners/nodejs/Dockerfile node ./docker/runners/nodejs/.
+./docker/tool-runner-controller/sandbox.sh -c ./docker/runners/nodejs/Dockerfile node ./docker/runners/nodejs/.
 
 
 echo "Starting the Gaia Tool Runner"
