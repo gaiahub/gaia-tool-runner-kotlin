@@ -14,21 +14,13 @@ on:
 jobs:
   # This workflow contains a single job called "build"
   build:
-    # The type of runner that the job will run on
+    name: Deploy Gaia Tool Runner
     runs-on: ubuntu-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-    - uses: actions/checkout@v2
-    
-    - name: clear deployment artifacts
-      uses: JimCronqvist/action-ssh@master
+    - name: executing remote ssh commands using password
+      uses: appleboy/ssh-action@v1.0.3
       with:
-        hosts: ${{ secrets.HOST_CONNECTION_STRING }}
-        privateKey: ${{ secrets.PRIVATE_KEY }}
-        command: |
-          docker stop $(docker ps -a -q);
-          rm -rf gaia-tool-runner-kotlin;
-          git clone git@github.com:gaiahub/gaia-tool-runner-kotlin.git
-          ./gaia-tool-runner-kotlin/deploy.sh;
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USER_NAME }}
+        password: ${{ secrets.PASSWORD }}
+        script: ./redeploy.sh
