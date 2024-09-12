@@ -17,9 +17,13 @@ import io.ktor.server.application.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.util.pipeline.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import java.io.File
+import java.lang.Thread.sleep
 import java.nio.file.Files
 import java.nio.file.Paths
 
@@ -84,14 +88,14 @@ class MainController(private val toolsService: ToolsService, private val variabl
 
             // Run the program in the sandbox
             SandboxService.runRunnableProgramInSandbox(it)
-                .onSuccess {
-                    return Result.success("${it.toCodeResultJSON()}")
-                }.onFailure {
-                    return Result.failure(Exception("Error: $it"))
+                .onSuccess { sandboxResult ->
+                    return Result.success(sandboxResult.toCodeResultJSON())
+                }.onFailure { error ->
+                    return Result.failure(Exception("Error: $error"))
                 }
 
-        }.onFailure {
-            return Result.failure(Exception("Error: ${it.message}"))
+        }.onFailure { error ->
+            return Result.failure(Exception("Error: ${error.message}"))
         }
         return sourceCode
     }
@@ -146,14 +150,31 @@ class MainController(private val toolsService: ToolsService, private val variabl
             }
             it.dispose()
         }
+    }
 
-
+    fun createSandboxes(pipelineContext: PipelineContext<Unit, ApplicationCall>) {
+        CoroutineScope(Dispatchers.IO).launch {
+            println("Restarting Docker daemon....")
+            SandboxService.createSandboxes()
+            println("Creating sandboxes....")
+            sleep(10000)
+            println(" _______  _______  __    _  ______   _______  _______  __   __  _______  _______                   \n" +
+                    "|       ||   _   ||  |  | ||      | |  _    ||       ||  |_|  ||       ||       |                  \n" +
+                    "|  _____||  |_|  ||   |_| ||  _    || |_|   ||   _   ||       ||    ___||  _____|                  \n" +
+                    "| |_____ |       ||       || | |   ||       ||  | |  ||       ||   |___ | |_____                   \n" +
+                    "|_____  ||       ||  _    || |_|   ||  _   | |  |_|  | |     | |    ___||_____  | ___   ___   ___  \n" +
+                    " _____| ||   _   || | |   ||       || |_|   ||       ||   _   ||   |___  _____| ||   | |   | |   | \n" +
+                    "|_______||__| |__||_|  |__||______| |_______||_______||__| |__||_______||_______||___| |___| |___| ")
+            val result = SandboxService.createSandboxes()
+            print(result)
+            pipelineContext.call.respondText(result)
+        }
     }
 
     private fun Throwable.toCodeResultJSON(): String {
         val runCodeResult = RunCodeResult(
             success = false,
-            executionResult = this.message ?: "Unknown error"
+            executionResult = this.message ?: "Unknown error",
         )
 
         return Json.encodeToString(runCodeResult)
@@ -162,6 +183,7 @@ class MainController(private val toolsService: ToolsService, private val variabl
     private fun SandboxExecutionResult.toCodeResultJSON(): String {
         val runCodeResult = RunCodeResult(
             success = true,
+            executionId = this.sandboxId,
             executionResult = this.executionResult
         )
 

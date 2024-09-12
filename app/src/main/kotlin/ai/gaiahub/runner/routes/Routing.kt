@@ -11,6 +11,7 @@ fun Application.configureRouting(controller: MainController) {
             get("/runTool/{toolId}") { controller.runTool(this) }
             post("/runCode/{runtime}") { controller.runCode(this) }
             get("/variables/{userId}") { controller.listVariablesByUserId(this) }
+            get("/sandboxes/create") { controller.createSandboxes(this) }
         }
     }
 }

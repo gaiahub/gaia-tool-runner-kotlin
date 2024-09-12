@@ -6,4 +6,5 @@ import kotlinx.serialization.Serializable
 data class RunCodeResult(
     val success: Boolean,
     val executionResult: String,
+    val executionId: String? = null,
 )

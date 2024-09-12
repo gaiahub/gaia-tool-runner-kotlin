@@ -15,7 +15,7 @@ docker build --progress=plain -t gaiahub/gaia-tool-runner:latest -f ./docker/too
 sleep 2
 # Run the docker image
 echo "Running the docker image..."
-docker run  --name "tool-runner" -d -p $PORT:$PORT -p 5432:5432 --privileged --rm gaiahub/gaia-tool-runner:latest
+docker run  --name "tool-runner" -d -p $PORT:$PORT --privileged --rm gaiahub/gaia-tool-runner:latest
 sleep 5
 echo "Starting Gaia Tool Runner in the container..."
 #echo docker exec  tool-runner /app/docker/tool-runner-controller/bootstart.sh $PORT $JDBC_CONNECTION_STRING

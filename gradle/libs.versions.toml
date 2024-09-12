@@ -21,3 +21,4 @@ kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-
 ktor-server-test-host-jvm = { group = "io.ktor", name = "ktor-server-test-host-jvm", version.ref = "ktorVersion" }
 kotlin-test-junit = { group = "org.jetbrains.kotlin", name = "kotlin-test-junit", version.ref = "kotlinVersion" }
 koin-core = { group = "io.insert-koin", name = "koin-core", version.ref = "koinCore"}
+kotlin-coroutines = { group = "org.jetbrains.kotlinx", name ="kotlinx-coroutines-core", version = "1.8.1" }
