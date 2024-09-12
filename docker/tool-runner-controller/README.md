@@ -1,6 +1,6 @@
 # Gaia Tool Runner
 
-This is a simple tool to run the Gaia tool on a given input file. 
+This is a simple tool to run the Gaia tool on a given input file
 
 ## Single Run
 
