@@ -23,4 +23,4 @@ jobs:
         host: ${{ secrets.HOST }}
         username: ${{ secrets.USER_NAME }}
         password: ${{ secrets.PASSWORD }}
-        script: ./redeploy.sh ${{ vars.PORT }} ${{ secrets.JDBC_CONNECTION_STRING }}
+        script: ./gaia-tool-runner-kotlin/redeploy.sh ${{ vars.PORT }} ${{ secrets.JDBC_CONNECTION_STRING }}
