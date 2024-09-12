@@ -23,4 +23,4 @@ jobs:
         host: ${{ secrets.HOST }}
         username: ${{ secrets.USER_NAME }}
         password: ${{ secrets.PASSWORD }}
-        script: ./redeploy.sh
+        script: ./redeploy.sh ${{ vars.PORT }} ${{ secrets.JDBC_CONNECTION_STRING }}
