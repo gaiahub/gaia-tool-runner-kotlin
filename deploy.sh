@@ -9,7 +9,7 @@ export PORT=$1
 export JDBC_CONNECTION_STRING=$2
 
 docker build --progress=plain -t "gaia-tool-runner"  \
--f ./docker/tool-runner-controller/DockerfileModified .
+-f ./docker/tool-runner-controller/Dockerfile .
 
 docker run \
   -e PORT=$PORT \
