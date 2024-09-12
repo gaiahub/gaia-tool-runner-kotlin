@@ -49,7 +49,7 @@ object SandboxService {
 
     private fun callSandbox(command: String): String {
         println(command)
-        val processBuilder = ProcessBuilder("/bin/sh", "-c", command)
+        val processBuilder = ProcessBuilder("/bin/sh", "-c", "unset DOCKER_HOST && $command")
         val process = processBuilder.start()
         val output = StringBuilder()
 
@@ -62,7 +62,13 @@ object SandboxService {
 
         val exitCode = process.waitFor()
         if (exitCode != 0) {
-            throw RuntimeException("Command exited with code $exitCode")
+            BufferedReader(InputStreamReader(process.errorStream)).use { reader ->
+                var line: String?
+                while (reader.readLine().also { line = it } != null) {
+                    output.append(line).append("\n")
+                }
+            }
+            throw RuntimeException("Command exited with code $exitCode\nError: $output")
         }
 
         return output.toString()
@@ -70,6 +76,14 @@ object SandboxService {
 
     private fun runSandbox(runtime: String, absoluteFilePath: String, tempInstanceName: String): String {
         return callSandbox("./docker/tool-runner-controller/sandbox.sh -rg $runtime $absoluteFilePath $tempInstanceName")
+    }
+
+    fun restartDockerDaemon(): String {
+        return callSandbox("dockerd")
+    }
+
+    fun createSandboxes(): String {
+        return callSandbox("/./app/docker/tool-runner-controller/sandbox.sh -c /./app/docker/runners/nodejs/Dockerfile node /./app/docker/runners/nodejs/.")
     }
 
     fun getRuntimeToRun(sandboxExecutionParams: SandboxExecutionParams): String {

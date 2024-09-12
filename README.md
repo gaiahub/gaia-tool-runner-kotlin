@@ -2,31 +2,45 @@
 
 This is a simple tool to run the Gaia tool on a given input file. 
 
-## Single Run
-
-```bash
-./deploy.sh 8080 <the jdbc string to a postgressql database>
-````
-
-## Build the Jar
+## Building the image
     
 ```bash
-./gradlew buildFatJar
+./build_image.sh
 ```
 
-## Build the image
+
+## Running the image
 
 ```bash
-docker build --progress=plain -t gaiahub/gaia-tool-runner:latest -f ./docker/tool-runner-controller/Dockerfile .
- 
-```
+PORT=8020
+JDBC_CONNECTION_STRING=jdbc:postgresql://postgres:5432/postgres
 
-## Run the image
-
-```bash
-docker run -it --rm -v $(pwd)/data:/data gaiahub/gaia-tool-runner:latest
+docker run gaia-tool-runner $PORT $JDBC_CONNECTION_STRING
 ```
 
 ## Usage
 
+#### Create the Sandboxes
 
+```bash
+curl -X GET  http://127.0.0.1:8020/v1/sandboxes/create
+```
+
+
+#### List all the available Gaia Tools
+    
+```bash
+curl -X GET  http://127.0.0.1:8020/v1/tools
+```
+
+#### Run a Gaia Tool
+    
+```bash
+curl -X GET  http://127.0.0.1:8020/v1/runTool/8a5c3f4e-e304-41b1-be20-20b8157a00c2
+```
+
+#### Run a Gaia Tool with a specific input file
+    
+```bash
+curl -X POST http://127.0.0.1:8020/v1/runCode/node -F "file=@/Users/demo_user/workspace/program.js"
+```
