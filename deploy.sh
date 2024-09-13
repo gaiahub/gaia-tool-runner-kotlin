@@ -11,15 +11,13 @@ export JDBC_CONNECTION_STRING=$2
 docker build --progress=plain -t "gaia-tool-runner"  \
 -f ./docker/tool-runner-controller/Dockerfile .
 
-try() {
+{
+  echo "Stopping and removing the existing container"
   docker stop gaia-tool-runner
   docker rm gaia-tool-runner
 }
-catch() {
-  echo "An error occurred: $1"
-}
 
-docker run \
+docker --debug run \
   -e PORT="$PORT" \
   -e JDBC_CONNECTION_STRING="$JDBC_CONNECTION_STRING" \
   -p "$PORT":"$PORT" \
