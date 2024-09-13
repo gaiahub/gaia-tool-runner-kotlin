@@ -29,4 +29,4 @@ ENV JDBC_CONNECTION_STRING="jdbc:postgresql://aws-0-us-west-1.pooler.supabase.co
 EXPOSE $PORT
 
 # Starting the tool-runner-controller
-CMD /app/docker/tool-runner-controller/bootstart.sh
+CMD ["/app/docker/tool-runner-controller/bootstart.sh"]
