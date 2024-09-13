@@ -12,8 +12,8 @@ docker build --progress=plain -t "gaia-tool-runner"  \
 -f ./docker/tool-runner-controller/Dockerfile .
 
 docker run \
-  -e PORT=$PORT \
+  -e PORT="$PORT" \
   -e JDBC_CONNECTION_STRING="$JDBC_CONNECTION_STRING" \
-  -p $PORT:$PORT \
+  -p "$PORT":"$PORT" \
   --privileged \
   --name gaia-tool-runner -d gaia-tool-runner
