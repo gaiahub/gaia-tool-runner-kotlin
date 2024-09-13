@@ -17,7 +17,7 @@ docker build --progress=plain -t "gaia-tool-runner"  \
   docker rm gaia-tool-runner
 }
 
-docker --debug run \
+docker run \
   -e PORT="$PORT" \
   -e JDBC_CONNECTION_STRING="$JDBC_CONNECTION_STRING" \
   -p "$PORT":"$PORT" \
